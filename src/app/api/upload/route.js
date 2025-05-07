@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
+import { v2 as cloudinary } from 'cloudinary';
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function POST(request) {
   try {
@@ -18,28 +23,25 @@ export async function POST(request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Create unique filename
-    const filename = `${uuidv4()}-${file.name}`;
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+    // Convert buffer to base64
+    const base64String = buffer.toString('base64');
+    const dataURI = `data:${file.type};base64,${base64String}`;
 
-    // Ensure uploads directory exists (this would be handled by your deployment environment)
-    try {
-      await writeFile(path.join(uploadDir, filename), buffer);
-    } catch (error) {
-      console.error('Error writing file:', error);
-      // If directory doesn't exist or is not writable, return error
-      return NextResponse.json(
-        { error: 'Failed to upload file. Upload directory may not exist.' },
-        { status: 500 }
-      );
-    }
-
-    const imageUrl = `/uploads/${filename}`;
+    // Upload to Cloudinary
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload(dataURI, {
+        folder: 'expense-tracker',
+        resource_type: 'auto',
+      }, (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      });
+    });
 
     return NextResponse.json(
       { 
         message: 'File uploaded successfully',
-        imageUrl
+        imageUrl: result.secure_url
       },
       { status: 200 }
     );

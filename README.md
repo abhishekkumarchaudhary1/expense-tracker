@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Flat Expense Tracker
+
+A full-featured expense tracking application for flatmates, built with Next.js, MongoDB, and Tailwind CSS.
+
+## Features
+
+- **User Authentication**
+  - Register with email verification
+  - Login/Logout functionality
+  - Forgot password and reset password
+  
+- **Expense Management**
+  - Add expenses with receipts (image upload)
+  - Edit and delete expenses
+  - View all expenses in a dashboard
+  
+- **Expense Balancing**
+  - Calculate balance between flatmates
+  - Show who owes whom and how much
+  - One-click settlement of all expenses
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js (v14 or later)
+- npm or yarn
+- MongoDB database (local or Atlas)
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```
+# MongoDB URI
+MONGODB_URI=mongodb+srv://your_mongodb_username:your_mongodb_password@cluster0.mongodb.net/expense-tracker?retryWrites=true&w=majority
+
+# NextAuth
+NEXTAUTH_SECRET=your_nextauth_secret
+NEXTAUTH_URL=http://localhost:3000
+
+# App URL for email links
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Email credentials (for nodemailer)
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASSWORD=your_email_password
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. Clone the repository
+2. Install dependencies
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+3. Create the `uploads` directory for storing images
+   ```bash
+   mkdir -p public/uploads
+   ```
+4. Run the development server
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Usage
 
-## Learn More
+1. Register a new account and verify your email
+2. Log in to the application
+3. Add expenses with descriptions, amounts, and optional receipt images
+4. Include flatmates who shared the expense
+5. View the current balance between flatmates on the dashboard
+6. When everyone agrees, click the "Adjust" button to settle all expenses
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js](https://nextjs.org/) - React framework
+- [MongoDB](https://www.mongodb.com/) - Database
+- [Mongoose](https://mongoosejs.com/) - MongoDB object modeling
+- [NextAuth.js](https://next-auth.js.org/) - Authentication
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [React Hook Form](https://react-hook-form.com/) - Form validation
+- [Nodemailer](https://nodemailer.com/) - Email sending
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License.
